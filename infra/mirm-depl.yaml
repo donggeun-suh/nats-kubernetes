@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mirm-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mirm
+  template:
+    metadata:
+      labels:
+        app: mirm
+    spec:
+      containers:
+        - name: mirm
+          image: suhdonggeun/mirm
+#          env:
+#            - name: JWT_KEY
+#              valueFrom:
+#                secretKeyRef:
+#                  name: jwt-secret
+#                  key: JWT_KEY.txt
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mirm-srv
+spec:
+  selector:
+    app: mirm
+  ports:
+    - name: mirm
+      protocol: TCP
+      port: 3003
+      targetPort: 3003

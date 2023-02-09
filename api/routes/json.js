@@ -10,13 +10,17 @@ router.get('/api/json',async (req, res)=>{
     const nc = await connect({servers: 'nats-srv:4222'});
     const data = jc.encode(req.body);
 
-    await nc.request(
-        `${game}:json`,
-        data,
-        {timeout: 5000}
-    ).then((m)=>{
-        res.send(sc.decode(m.data))
-    }).catch((err)=> res.send(err.message))
+    try {
+        const m = await nc.request(
+            `${game}:json`,
+            data,
+            {timeout: 5000}
+        )
+        await res.send(sc.decode(m.data));
+
+    } catch (err){
+        res.send(err.message);
+    }
 })
 
 export {router as jsonRouter};
