@@ -7,7 +7,7 @@ export const stringAPI = async (sub)=>{
         for await (const m of sub) {
             try{
                 const msg = sc.decode(m.data);
-                m.respond(sc.encode("nc received " + sc.decode(msg))) ? console.log("handled") : console.log("not handled");
+                m.respond(sc.encode("nc received " + msg)) ? console.log("handled") : console.log("not handled");
             } catch (e){
                 console.log(e.message);
             }
